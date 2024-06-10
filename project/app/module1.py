@@ -1,12 +1,16 @@
 import qrcode
 import io
 
-img = qrcode.make('ali')
-type(img)  # qrcode.image.pil.PilImage
-# Save the image to a bytes buffer instead of a file
-buffer = io.BytesIO()
-img.save(buffer)
+def generate_qr_code_from_hash(hash_string):
+    # Create QR code from the hash
+    img = qrcode.make(hash_string)
 
-print(buffer)
+    # Save the QR code to a bytes buffer
+    buffer = io.BytesIO()
+    img.save(buffer)
 
+    # Seek to the beginning of the buffer
+    buffer.seek(0)
+
+    return buffer
 
