@@ -1,12 +1,16 @@
-from qreader import QReader
+from pyzbar.pyzbar import decode
 import cv2
 
+# Read the image
+img = cv2.imread('../data/img/test.png')
+# Convert the image to grayscale
+gray_img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+# Detect and decode the QRs within the image
+QRs = decode(gray_img)
 
-# Create a QReader instance
-qreader = QReader()
+# Print the results
+for QR in QRs:
+    print('Data:', QR.data.decode('utf-8'))
+    print('Bounding Box:', QR.rect)
 
-# Get the image that contains the QR code
-image = cv2.cvtColor(cv2.imread("../data/img/test.png"), cv2.COLOR_BGR2RGB)
-
-# Use the detect_and_decode function to get the decoded QR data
-decoded_text = qreader.detect_and_decode(image=image)
+    print('Quality:', QR.quality * 100 , '%')
